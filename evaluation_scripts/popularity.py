@@ -8,13 +8,13 @@ def compute_popularity(ratings_df, verbose = False):
         book_popularity_sorted = raw_popularity_df.sort_values('num_ratings', ascending=False)
         print(book_popularity_sorted)
 
-    quantiles = raw_popularity_df['num_ratings'].quantile([0.5, 0.8]).values
-    q50, q80 = quantiles[0], quantiles[1]
+    quantiles = raw_popularity_df['num_ratings'].quantile([0.2, 0.8]).values
+    q20, q80 = quantiles[0], quantiles[1]
 
     def categorize_popularity(num_ratings):
         if num_ratings >= q80:
             return 'head'
-        elif num_ratings >= q50:
+        elif num_ratings >= q20:
             return 'mid'
         else:
             return 'tail'

@@ -1,0 +1,29 @@
+experiment:
+  backend: tensorflow
+  dataset: gr_language
+  data_config:
+    strategy: fixed
+    train_path: ../../../data/gr_language/train_dataset.tsv
+    test_path: ../../../data/gr_language/test_dataset.tsv
+  binarize: true
+  top_k: 50
+  evaluation:
+    cutoffs:
+    - 10
+    - 50
+    simple_metrics:
+    - nDCG
+    - MAP
+    - MRR
+    complex_metrics:
+    - metric: REO
+      clustering_name: ItemLanguage
+      clustering_file: ../../../data/gr_language/item_languages.tsv
+  gpu: 1
+  path_output_rec_result: ./data/sim_res/recs
+  path_output_rec_performance: ./data/sim_res/performance
+  path_output_rec_weight: ./data/sim_res/weights
+  path_log_folder: ./data/sim_res/logs
+  models:
+    ProxyRecommender:
+      path: 'C:\Users\fedea\OneDrive\Documentos\Rares\elliot\thesis_sources\saved_recs\itemautorec.tsv'

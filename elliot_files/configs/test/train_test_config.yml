@@ -1,0 +1,107 @@
+experiment:
+  backend: tensorflow
+  dataset: gr_language
+  data_config:
+    strategy: fixed
+    train_path: ../../../data/gr_language/train_dataset.tsv
+    test_path: ../../../data/gr_language/test_dataset.tsv
+  binarize: true
+  top_k: 50
+  evaluation:
+    cutoffs:
+    - 10
+    - 50
+    simple_metrics:
+    - nDCG
+    - MAP
+    - MRR
+    complex_metrics:
+    - metric: REO
+      clustering_name: ItemLanguage
+      clustering_file: ../../../data/gr_language/item_languages.tsv
+  gpu: 1
+  path_output_rec_result: ./data/sim_res/recs
+  path_output_rec_performance: ./data/sim_res/performance
+  path_output_rec_weight: ./data/sim_res/weights
+  path_log_folder: ./data/sim_res/logs
+  models:
+    ItemAutoRec:
+      meta:
+        verbose: True
+        save_recs: True
+      epochs: 39
+      batch_size: 256
+      hidden_neuron: 500
+      lr: 0.00001042681183632054
+      l_w: 0.01
+    PMF:
+      meta:
+        verbose: True
+        save_recs: True
+      epochs: 80
+      factors: 64
+      lr: 0.0005438474900776614
+      batch_size: 64
+      reg: 0.005
+      reg_b: 0
+      gaussian_variance: 0.5
+    MF2020:
+      meta:
+        verbose: True 
+        save_recs: True
+      epochs: 97
+      factors: 16
+      lr: 0.015443490499450537
+      reg: 0.02236420282061843
+      m: 4
+      early_stopping:
+          patience: 10
+          monitor: nDCG@10
+          mode: auto
+          min_delta: 0.001
+          baseline: 0.0001
+    BPRMF:
+      meta:
+        verbose: True
+        save_recs: True
+      lr: 0.12656238201324077
+      batch_size: 512
+      epochs: 86
+      bias_regularization: 0
+      user_regularization: 0.005867347469574607
+      positive_item_regularization: 0.005298543432723261
+      negative_item_regularization: 0.0009577332554585452
+      factors: 64
+      early_stopping:
+          patience: 10
+          monitor: nDCG@10
+          mode: auto
+          min_delta: 0.001
+          baseline: 0.0001
+    Slim:
+      meta:
+        verbose: True
+        save_recs: True
+      l1_ratio: 0.004320649518475755
+      alpha: 0.014169852602215982
+    Random:
+      meta:
+        save_recs: True
+    ItemKNN:
+      meta:
+        verbose: True
+        save_recs: True        
+      neighbors: 8
+      similarity: cosine
+    MultiVAE: 
+      meta:
+        verbose: True
+        save_recs: True
+      lr: 0.0015655504610557827
+      epochs: 19
+      batch_size: 128        
+      intermediate_dim: 778
+      latent_dim: 101
+      dropout_pkeep: 0.5
+      reg_lambda: 0.0080536686573167
+        

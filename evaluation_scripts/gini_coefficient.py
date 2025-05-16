@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 def compute_exposure_frequency(users, recommender_lists, all_items, verbose=False):
     """
@@ -53,7 +54,7 @@ def aggregate_item_exposures_to_groups(item_exposure, item_languages):
 
     return group_exposure
 
-def gini_coefficient(exposures, verbose=False):
+def gini_coefficient(exposures, verbose=False, algorithm=None, cutoff=50):
     """
     Compute the Gini coefficient for exposure fairness.
 
@@ -65,7 +66,6 @@ def gini_coefficient(exposures, verbose=False):
     """
     if verbose:
         print("Started gini coefficient...")
-    # Extract exposure values and sort them
     exposures = np.array(list(exposures.values()))
     exposures = np.sort(exposures)
     n = len(exposures)
@@ -78,11 +78,16 @@ def gini_coefficient(exposures, verbose=False):
     if sum_exposures == 0:
         return 0
 
-    # Compute Gini coefficient using the cumulative sum approach
     gini_sum = np.sum((2 * np.arange(1, n + 1) - n - 1) * exposures)
     gini = gini_sum / (n * sum_exposures)
     normalized_gini = gini / ((n - 1) / n)
     if verbose:
         print(f"Item Gini coefficient: {gini}")
         print(f"Normalized Gini: {normalized_gini}")
+    if algorithm is not None:
+        os.makedirs("fairness/gini", exist_ok=True)
+        with open(f"fairness/gini/{algorithm}_{cutoff}.csv", 'a') as f:
+            f.write(f"gini_val, {gini}\n")
+            f.write(f"normalized_gini_val, {normalized_gini}\n")
+
     return normalized_gini, gini

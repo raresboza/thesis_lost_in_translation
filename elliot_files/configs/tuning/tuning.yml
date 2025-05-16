@@ -1,0 +1,132 @@
+experiment:
+  backend: tensorflow
+  dataset: gr_language
+  data_config:
+    strategy: fixed
+    train_path: ../../../data/gr_language/train_dataset_separated.tsv
+    validation_path: ../../../data/gr_language/validation_dataset.tsv
+    test_path: ../../../data/gr_language/validation_dataset.tsv
+  binarize: true
+  top_k: 10
+  evaluation:
+    cutoffs:
+    - 10
+    simple_metrics:
+    - nDCG
+  gpu: 1
+  path_output_rec_result: ./data/sim_recs/recs
+  path_output_rec_performance: ./data/sim_recs/performance
+  path_output_rec_weight: ./data/sim_recs/weights
+  path_log_folder: ./data/sim_recs/logs
+  models:
+    MF2020: 
+      meta:
+        hyper_max_evals: 20
+        hyper_opt_alg: tpe
+        verbose: True
+        save_recs: True
+      epochs: [quniform, 30, 100, 1]
+      factors: [8, 16, 32, 64, 128, 256]
+      lr: [loguniform, -11.512925464970229, 0]
+      reg: [loguniform, -11.512925464970229, -2.30258509299]
+      m: [4,6,8]
+      early_stopping:
+        patience: 5
+        monitor: nDCG@10
+        mode: auto
+        verbose: True
+        min_delta: 0.001
+        baseline: 0.0001
+    Slim:
+        meta:
+          hyper_max_evals: 20
+          hyper_opt_alg: tpe
+          verbose: True
+          save_recs: True
+          validation_metric: nDCG@10
+        l1_ratio: [loguniform, -11.512925464970229, 0]
+        alpha: [uniform, 0.001, 1]
+    Random:
+      meta:
+        save_recs: True
+    ItemKNN:
+      meta:
+        save_recs: True
+        save_weights: True
+        verbose: True
+        hyper_max_evals: 20
+        hyper_opt_alg: tpe
+        validation_metric: nDCG@10
+      neighbors: [uniform, 5, 1000]
+      similarity: [cosine, l1]
+    BPRMF:
+      meta:
+        hyper_max_evals: 20
+        hyper_opt_alg: tpe
+        verbose: True
+        save_recs: True
+        save_weights: True
+        validation_metric: nDCG@10
+      lr: [loguniform, -11.512925464970229, 0]
+      batch_size: [128, 256, 512]
+      epochs: [quniform, 30, 100, 1]
+      bias_regularization: 0
+      user_regularization: [loguniform, -11.512925464970229, -2.30258509299]
+      positive_item_regularization: [loguniform, -11.512925464970229, -2.30258509299]
+      negative_item_regularization: [loguniform, -11.512925464970229, -2.30258509299]
+      factors: [8, 16, 32, 64, 128, 256]
+      early_stopping:
+        patience: 3
+        monitor: nDCG@10
+        mode: auto
+        verbose: True
+        min_delta: 0.001
+        baseline: 0.0001
+    PMF:
+      meta:
+        hyper_max_evals: 20
+        hyper_opt_alg: tpe
+        verbose: True
+        save_recs: True
+        validation_metric: nDCG@10
+      lr: [loguniform, -11.512925464970229, 0]
+      epochs: [quniform, 30, 100, 1]
+      factors: [32, 64, 128]
+      batch_size: [32, 64]
+      reg: [0.0025, 0.005, 0.01]
+      reg_b: 0
+      gaussian_variance: [0.1, 0.2, 0.5]
+      early_stopping:
+        patience: 10
+        monitor: nDCG@10
+        mode: auto
+        verbose: True
+        min_delta: 0.001
+        baseline: 0.0001
+    MultiVAE: 
+      meta:
+        hyper_max_evals: 50
+        hyper_opt_alg: tpe
+        save_recs: True
+        save_weights: True
+        verbose: True
+        validation_metric: nDCG@10
+      lr: [loguniform, -11.512925464970229, 0]
+      epochs: [quniform, 1, 25, 1]
+      batch_size: [64, 128, 256]         
+      intermediate_dim: [quniform, 400, 800, 1]
+      latent_dim: [quniform, 100, 400, 1]
+      dropout_pkeep: 0.5
+      reg_lambda: [loguniform, -11.512925464970229, 0]
+    ItemAutoRec:
+      meta:
+        hyper_max_evals: 50
+        hyper_opt_alg: tpe
+        verbose: True
+        validation_rate: 1
+        validation_metric: nDCG@10
+      epochs: [quniform, 30, 100, 1]
+      batch_size: [64, 128, 256]
+      hidden_neuron: 500
+      lr: [loguniform, -11.512925464970229, 0]
+      l_w: [0.001, 0.01, 0.1, 1, 100, 1000]
