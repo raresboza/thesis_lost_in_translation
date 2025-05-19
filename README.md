@@ -23,8 +23,12 @@ recommendation algorithms, evaluating their performance with respects to accurac
 This allows us to discern if any of the algorithms are a helpful conduit or a harmful one. Upon identifying
 inequity concerning foreign authors, we probe the ability of mitigating it on an algorithmic level, by applying
 a reranking method.
+Outcomes stemming from this work, reveal high representation of books available in
+English in recommendations, while highlighting the advantages of foreign manuscripts with translations
+over those without. The outlined findings inform future design of Recommender Systems and their provider
+fairness evaluation.
 
-# Citation
+# Research Paper
 TO-BE-FILLED-IN UPON SUBMISSION/Graduation
 
 # Overview
@@ -45,5 +49,8 @@ Due to this project making use of two other open-source tools to achieve its res
 
 We strongly advise that any person interested in using the inference process of languages and translation availability in our study to be mindful of its limitations.
 For that, please refer to the manuscript of this work where the threats to the validity of this process are discussed.
+
+Should anyone desire to use another dataset through this pipeline, the language inference process should follow the tags in the paper for the analysis done in the notebooks.
+For the recommendation setting and the evaluation process, convert these tags to integer identifiers.
 
 Additional documentation is present in each of the directories of this repository.

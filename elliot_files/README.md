@@ -7,4 +7,5 @@ The addition of the changed files is fairly straight forward, as we have structu
 To run the desired experiments, we build the environment for this project as described in the source repository. The `configs` directory contains all our recommendation runs formulating the pipeline of the experiment. `experiment.py` contains a script that can be used to start these experiments as desired.
 
 # Notes
+
 Absolute paths were used for saving the results in some instances, as the code was run on different devices and different operating systems. Please change them according to your own file structure.
