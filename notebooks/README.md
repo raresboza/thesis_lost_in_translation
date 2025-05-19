@@ -13,6 +13,7 @@ python3 -m venv .venv
 Then, activate using:
 ```
 source .venv/bin/activate
+pip install -r requirements.txt
 ```
 # Notes
 Absolute paths were used for loading/saving the results in some instances, as the code was run on different devices and different operating systems. Please change them according to your own file structure.
